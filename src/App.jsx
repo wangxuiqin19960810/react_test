@@ -1,8 +1,13 @@
 import React,{Component} from 'react';
-class App extends Component{
+import {Button, message} from 'antd'
+export default class App extends Component{
+    handleClick = () => {
+        message.success('成功啦...');
+      }
+    
     render(){
         return(
-            <h2>哈哈</h2>
+            <Button type='primary' onClick={this.handleClick}>学习</Button>
         )
     }
 }
