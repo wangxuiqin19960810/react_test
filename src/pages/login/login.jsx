@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button,message } from 'antd';
+import {Redirect} from 'react-router-dom'
+
+
 import logo from './images/logo.png';
 import bg from './images/bg.jpg';
 import './login.less'
-import Password from 'antd/lib/input/Password';
+import {reqLogin}  from '../../api'
+import storageUtils  from '../../utils/storageUtils';
+import memoryutils  from '../../utils/memoryutils';
 class Login extends Component {
+    
+
     handleSubmit = e => {
         e.preventDefault();//阻止事件的默认行为，阻止表单的提交
         // alert('发送ajax验证');
@@ -17,12 +24,37 @@ class Login extends Component {
         
         //点击提交按钮对表单所有字段进行统一验证
         //values是所有搜集的数据{username，password}
-        this.props.form.validateFields((err, {username,password}) => {
+        this.props.form.validateFields(async(err, {username,password}) => {
             // console.log(values);//{username: "12345", password: "222222"}
             // let {username,password} = {username: "12345", password: "222222"}
             // if (!err) {
-            //   //验证成功后发送ajax请求
+
+            // 验证成功后发送ajax请求
             //   alert(`发送Ajax请求111,username=${username},password=${password}`);
+            const reuslt = await reqLogin(username,password)//reqLogin()返回值是promise对象
+            //看是否和接口文档一致
+            
+                if(reuslt.status === 0){//登录成功,跳转到admin管理界面
+                    //将user的信息，保存到localStorage中
+                    const user = reuslt.data;
+                    // localStorage.setItem('user_key',JSON.stringify(user));//转换成JSON格式的字符串
+                    storageUtils.saveUser(user);
+                    //在内存中保存user
+                    //内存中user要想有信息，有两种途径：
+                    // 1.昨天登陆过，关闭浏览器后内存中没了，但localstoreage中有，
+                         // 再次打开浏览器时，内存中user的初始值就是从localstoreage中读的，所有内存中一上来就有 
+                    // 2.从未登录过，内存中没有，通过登录界面进行登录就有了，就将user保存到内存中了
+                    memoryutils.user = user;
+
+                    this.props.history.replace('/')
+                    message.success('登录成功')
+                }else{//登录失败
+                    message.error(reuslt.msg)
+                }
+            
+
+
+
             // }else{
             //     alert('验证失败')
             // }
@@ -57,6 +89,17 @@ class Login extends Component {
       
 
     render() {
+        //读取user，如果存在，直接跳转到管理界面
+        // const user= JSON.parse(localStorage.getItem('user_key') || '{}');//将JSON格式的字符串转换成对象
+        // const user = storageUtils.getUser()
+        const user = memoryutils.user
+        
+        if(user._id){//说明已经登录
+            //跳转到管理界面
+            // this.props.history.replace('/login')事件;回调函数中路由的跳转
+            return <Redirect to={'/'}/> //render()渲染时自动跳转到指定的路由组件
+        }
+
         const Item = Form.Item;
         const {getFieldDecorator} = this.props.form;
         return (
