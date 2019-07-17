@@ -5,6 +5,7 @@ import Admin from './pages/admin/admin';
 export default class App extends Component{
     render(){
         return(
+                // 注册一级路由 
                 <Switch>
                     <Route path='/login' component={Login}/>
                     <Route path='/' component={Admin}/>

@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { Form, Icon, Input, Button,message } from 'antd';
 import {Redirect} from 'react-router-dom'
 
-
-import logo from './images/logo.png';
-import bg from './images/bg.jpg';
-import './login.less'
 import {reqLogin}  from '../../api'
 import storageUtils  from '../../utils/storageUtils';
 import memoryutils  from '../../utils/memoryutils';
+import logo from '../../assets/images/logo.png';
+import bg from './images/bg.jpg';
+import './login.less'
 class Login extends Component {
     
 
