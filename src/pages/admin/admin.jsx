@@ -34,7 +34,7 @@ export default class Admin extends Component {
                 </Sider>
                 <Layout>
                     <Header />
-                    <Content style={{ background: 'skyblue' }}>
+                    <Content style={{ background: 'white',margin:'20px'}}>
                         {/* 注册二级路由 */}
                         <Switch>
                             <Route path='/home' component={Home} />
