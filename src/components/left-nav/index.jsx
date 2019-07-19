@@ -121,8 +121,8 @@ class LeftNav extends Component {
 
         //得到当前请求的路径
         const SelectedKey = this.props.location.pathname
-        console.log('SelectedKey',SelectedKey)
-        console.log('openkey',this.openkey)
+        // console.log('SelectedKey',SelectedKey)
+        // console.log('openkey',this.openkey)
         return (
             <div className='left-nav'>
                 <Link className='left-nav-link' to='/home'>

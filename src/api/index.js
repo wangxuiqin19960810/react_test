@@ -58,20 +58,36 @@ export const reqLogin = (username, password) => ajax.post(BASE + '/login', { use
 //发送jsonp请求获取天气信息  //jsonp(url, opts, fn)//opts为配置对象
 export const reqWeather = (city) => {
     //执行器函数，内部执行异步任务，成功了调用resolve(),失败了直接提示错误信息
-    return new Promise(resolve => {
-            const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`
-            jsonp(url, {}, (err, data) => {
-                if(!err&data.status==='success'){
-                    //得到天气的信息
-                    const {dayPictureUrl,weather} = data.results[0].weather_data[0];
-                    resolve({dayPictureUrl,weather})
-                }else{
-                    message.error(err)
-                }
-            })
-        
-            
-        
+    return new Promise((resolve, reject) => {
+        const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`
+        jsonp(url, {}, (err, data) => {
+            if (!err & data.error === 0) {
+                //得到天气的信息
+                const { dayPictureUrl, weather } = data.results[0].weather_data[0];
+                resolve({ dayPictureUrl, weather })
+            } else {
+                message.error('获取天气信息失败')
+            }
+        })
     })
-
 }
+
+//发送请求获取更新列表
+//一定要访问localhot:3000，代理才能帮我们转到5000
+export const reqCategroys = () => ajax.get(BASE + 'manage/category/list');
+
+
+//添加分类
+export const reqCategroysAdd = (categoryName) => ajax.post(BASE + 'manage/category/add', { categoryName });
+
+//修改分类
+export const reqcategroysUpdate = ({categoryId,categoryName}) => ajax.post(BASE + 'manage/category/update', {categoryId, categoryName });
+
+//获取商品分页列表
+export const reqProdocts = (pageNum,pageSize)=>ajax(BASE + '/manage/product/list',
+{params:{//包含所有query参数的对象
+    pageNum,
+    pageSize 
+}})
+
+
