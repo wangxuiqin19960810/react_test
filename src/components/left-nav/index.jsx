@@ -38,7 +38,7 @@ class LeftNav extends Component {
                     判断当前item的key是否是我需要的key
                     查找item中所有的children中cItem的key,看是否有一个跟请求的path匹配
                 */
-                    const cItem = item.children.find(cItem => cItem.key === path)
+                    const cItem = item.children.find(cItem =>path.indexOf(cItem.key) === 0)//看开头是否一致就行
                       if(cItem){
                           this.openkey = item.key
                       }  
@@ -119,8 +119,11 @@ class LeftNav extends Component {
         // console.log('render()')
         
 
-        //得到当前请求的路径
-        const SelectedKey = this.props.location.pathname
+        //得到当前请求的路径，作为选中菜单项的key
+        const SelectedKey = this.props.location.pathname  //   /product/xxx
+        if(selectKey.indexOf('/product')){//看开头是否一致就行
+            selectKey = '/product'
+        }
         // console.log('SelectedKey',SelectedKey)
         // console.log('openkey',this.openkey)
         return (

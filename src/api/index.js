@@ -74,7 +74,7 @@ export const reqWeather = (city) => {
 
 //发送请求获取更新列表
 //一定要访问localhot:3000，代理才能帮我们转到5000
-export const reqCategroys = () => ajax.get(BASE + 'manage/category/list');
+export const reqCategroys = () => ajax.get(BASE + '/manage/category/list');
 
 
 //添加分类
