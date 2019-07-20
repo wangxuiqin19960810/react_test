@@ -72,6 +72,7 @@ export default class Category extends Component {
         const {showStatus} = this.state;
         if(showStatus === 1){
           //发送添加分类的请求
+          
           result = await reqCategroysAdd(categoryName)
         }else{
           //发送更新分类的请求
@@ -118,7 +119,10 @@ export default class Category extends Component {
   }
   render() {
     const extra = (
-      <Button type='primary' onClick={() => { this.setState({ showStatus: 1 }) }}>
+      <Button type='primary' onClick={() => { 
+        this.category = {}
+        this.setState({ showStatus: 1 }) 
+        }}>
         <Icon type='plus'></Icon>
         <span>添加</span>
       </Button>
