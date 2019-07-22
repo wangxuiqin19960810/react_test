@@ -1,15 +1,61 @@
-import React,{Component} from 'react';
-import {Route,Switch} from 'react-router-dom';
-import Login from './pages/login/login';
-import Admin from './pages/admin/admin';
-export default class App extends Component{
-    render(){
-        return(
-                // 注册一级路由 
-                <Switch>
-                    <Route path='/login' component={Login}/>
-                    <Route path='/' component={Admin}/>
-                </Switch>
+import React, { Component } from 'react';
+/*
+应用根组件
+ */
+export default class App extends Component {
+    
+    state = {
+        count: 0
+    }
+    increment = () => {
+        const number = this.refs.numberSelect.value * 1
+        const count = this.state.count
+        this.setState({
+            count: count + number
+        })
+    }
+    decrement = () => {
+        const number = this.refs.numberSelect.value * 1
+        const count = this.state.count
+        this.setState({
+            count: count - number
+        })
+    }
+    incrementIfOdd = () => {
+        const number = this.refs.numberSelect.value * 1
+        const count = this.state.count
+        if (count % 2 === 1) {
+            this.setState({
+                count: count + number
+            })
+        }
+
+    }
+    incrementAsync = () => {
+        const number = this.refs.numberSelect.value * 1
+        const count = this.state.count
+        setTimeout(()=>{
+            this.setState({
+                count: count + number
+            })
+        },1000)
+    }
+
+    render() {
+        const count = this.state.count
+        return (
+            <div>
+                <p>click {count} times</p>
+                <select ref='numberSelect'>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select> &nbsp;
+                <button onClick={this.increment}>+</button>&nbsp;
+                <button onClick={this.decrement}>-</button>&nbsp;
+                <button onClick={this.incrementIfOdd}>increment if odd</button>&nbsp;
+                <button onClick={this.incrementAsync}>increment async</button>
+            </div>
         )
     }
 }
