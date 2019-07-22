@@ -1,48 +1,39 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
+import {increment,decrement} from './redux/actions'
 /*
 应用根组件
  */
 export default class App extends Component {
-    
-    state = {
-        count: 0
+    //必须要接收一个store属性，所以父组件必须要向Ap组件传递一个store属性，且必须是对象类型
+    static propTypes = {
+        store:PropTypes.object.isRequired
     }
     increment = () => {
         const number = this.refs.numberSelect.value * 1
-        const count = this.state.count
-        this.setState({
-            count: count + number
-        })
+        this.props.store.dispatch(increment(number))
     }
     decrement = () => {
         const number = this.refs.numberSelect.value * 1
-        const count = this.state.count
-        this.setState({
-            count: count - number
-        })
+        this.props.store.dispatch(decrement(number))
     }
     incrementIfOdd = () => {
         const number = this.refs.numberSelect.value * 1
-        const count = this.state.count
+        const count = this.props.store.getState()
         if (count % 2 === 1) {
-            this.setState({
-                count: count + number
-            })
+            this.props.store.dispatch(increment(number))
         }
 
     }
     incrementAsync = () => {
         const number = this.refs.numberSelect.value * 1
-        const count = this.state.count
         setTimeout(()=>{
-            this.setState({
-                count: count + number
-            })
+            this.props.store.dispatch(increment(number))
         },1000)
     }
 
     render() {
-        const count = this.state.count
+        const count = this.props.store.getState()
         return (
             <div>
                 <p>click {count} times</p>
