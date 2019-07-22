@@ -120,9 +120,9 @@ class LeftNav extends Component {
         
 
         //得到当前请求的路径，作为选中菜单项的key
-        const SelectedKey = this.props.location.pathname  //   /product/xxx
-        if(selectKey.indexOf('/product')){//看开头是否一致就行
-            selectKey = '/product'
+        let SelectedKey = this.props.location.pathname  //   /product/xxx
+        if(SelectedKey.indexOf('/product')===0){//看开头是否一致就行
+            SelectedKey = '/product'
         }
         // console.log('SelectedKey',SelectedKey)
         // console.log('openkey',this.openkey)

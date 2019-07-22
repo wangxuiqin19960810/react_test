@@ -81,44 +81,72 @@ export const reqCategroys = () => ajax.get(BASE + '/manage/category/list');
 export const reqCategroysAdd = (categoryName) => ajax.post(BASE + 'manage/category/add', { categoryName });
 
 //修改分类
-export const reqcategroysUpdate = ({categoryId,categoryName}) => ajax.post(BASE + 'manage/category/update', {categoryId, categoryName });
+export const reqcategroysUpdate = ({ categoryId, categoryName }) => ajax.post(BASE + 'manage/category/update', { categoryId, categoryName });
 
 //根据分类Id获取分类名称
-export const reqCategory = (categoryId) =>ajax(BASE+ '/manage/category/info',{
-    params:{
+export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', {
+    params: {
         categoryId
     }
 })
 
 //获取商品分页列表
-export const reqProdocts = (pageNum,pageSize)=>ajax(BASE + '/manage/product/list',
-{params:{//包含所有query参数的对象
+export const reqProdocts = (pageNum, pageSize) => ajax(BASE + '/manage/product/list',
+    {
+        params: {//包含所有query参数的对象
+            pageNum,
+            pageSize
+        }
+    })
+
+
+//发送根据Name搜索产品分页列表
+export const reqSearchProducts = ({
     pageNum,
-    pageSize 
-}})
-
-
-  //发送根据Name搜索产品分页列表
-  export const reqSearchProducts=({
-      pageNum,
-      pageSize,
-      searchName,
-      searchType //它的值是productName 或者 productDesc
-    })=>ajax.get(BASE + '/manage/product/search',{
-      params:{
+    pageSize,
+    searchName,
+    searchType //它的值是productName 或者 productDesc
+}) => ajax.get(BASE + '/manage/product/search', {
+    params: {
         pageNum,
         pageSize,
-        [searchType]:searchName
-      }
-  })
+        [searchType]: searchName
+    }
+})
 // 发送对商品进行上架/下架处理请求
-export const reqUpdateStatus=(productId,status)=>ajax(BASE+'/manage/product/updateStatus',{
-    method:'POST',
-    data:{
+export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {
+    method: 'POST',
+    data: {
         productId,
-        status   
+        status
     }
 })
 
+//删除图片
+export const reqDeleteImg = (name) => ajax.post(BASE + '/manage/img/delete', { name })
 
+//发送请求添加/修改商品
+export const reqAddUpdateProduct = (product) => ajax.post(
+    BASE + '/manage/product/' + (product._id ? 'update' : 'add'),
+    product
+)
 
+//获取角色列表
+export const reqRoles = () => ajax(BASE + '/manage/role/list')
+
+//添加角色
+export const reqAddRole = (roleName) => ajax.post(BASE + '/manage/role/add', { roleName })
+
+//更新角色
+export const reqUpdateRole = (role) => ajax.post(BASE + '/manage/role/update', role)
+// //获取所有用户列表
+export const reqUsers = () => ajax(BASE + '/manage/user/list')
+
+// //添加/更新用户
+export const reqAddOrUpdateUser = (user) => ajax.post(
+    BASE + '/manage/user/' + (user._id ? 'update' : 'add'),
+    user
+)
+
+// //删除用户
+export const reqDeleteUser = (userId)=>ajax.post(BASE + '/manage/user/delete',{userId})

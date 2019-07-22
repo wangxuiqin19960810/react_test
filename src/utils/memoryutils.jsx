@@ -1,4 +1,4 @@
-import storageUtils from "./storageUtils";\
+import storageUtils from "./storageUtils";
 //初始时取一次，并保存为user
 const user = storageUtils.getUser()
 export default {
