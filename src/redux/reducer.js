@@ -3,7 +3,7 @@
 */
 import {combineReducers} from 'redux'
 import action from './actions'
-import { storageUtils } from "../utils/storageUtils";
+import storageUtils  from "../utils/storageUtils";
 
 /* 
 管理头部标题的reducer函数

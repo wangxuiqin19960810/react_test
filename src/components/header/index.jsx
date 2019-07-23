@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal} from 'antd';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux'
 
 import memoryutils from '../../utils/memoryutils'
 import storageUtils from '../../utils/storageUtils'
@@ -111,4 +112,12 @@ const { confirm } = Modal;
         )
     }
 }
-export default withRouter(Header);
+//用connect()包装UI组件生成容器组件
+export default connect(
+    //一般属性
+    state => ({headerTitle}),
+    //函数属性
+    {}
+)(withRouter(Header))
+
+
