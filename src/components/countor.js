@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import {increment,decrement} from './redux/actions'
+// import {increment,decrement} from '../redux/actions'
 /*
 应用根组件
- */
-export default class App extends Component {
+UI组件，负责显示（初始显示和更新显示）
+在编码上没有使用任何redux相关语法 
+*/
+class Counter extends Component {
     static propTypes = {
         count:PropTypes.number.isRequired,
         increment:PropTypes.func.isRequired,
@@ -20,7 +22,7 @@ export default class App extends Component {
     }
     incrementIfOdd = () => {
         const number = this.refs.numberSelect.value * 1
-        const count = this.props.store.getState()
+        const count = this.props.count
         if (count % 2 === 1) {
             this.props.increment(number);
         }
@@ -51,3 +53,4 @@ export default class App extends Component {
         )
     }
 }
+export default Counter
