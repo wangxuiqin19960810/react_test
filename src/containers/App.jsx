@@ -7,14 +7,15 @@ import {increment,decrement,incrementAsync} from '../redux/actions.js'
  */
 
 
-const mapStateToProps = (state)=>({//返回的对象的所有属性
-    count:state
-})
+// const mapStateToProps = (state)=>({//返回的对象的所有属性
+//     count:state
+// })
 
-const mapDispatchToProps = (dispatch)=>({
-    increment:(number)=>{dispatch(increment(number))},
-    decrement:(number)=>{dispatch(decrement(number))}
-})
+// const mapDispatchToProps = (dispatch)=>({
+//     increment:(number)=>{dispatch(increment(number))},
+//     decrement:(number)=>{dispatch(decrement(number))},
+//     incrementAsync:(number)=>{dispatch(incrementAsync(number))}
+// })
 /* export default connect(
      mapStateToProps,// 用来指定传递哪些一般属性
      mapDispatchToProps // 用来指定传递哪些函数属性

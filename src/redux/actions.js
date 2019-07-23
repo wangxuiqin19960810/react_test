@@ -29,7 +29,7 @@ export const incrementAsync = (number) =>(
         //执行异步代码
         setTimeout(() => {
             //有了结果以后，分发同步action
-            dispatch(incrementAsync(number))
+            dispatch(increment(number))
         }, 2000)
     }
 )
