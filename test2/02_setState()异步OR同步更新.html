@@ -98,7 +98,7 @@
         setState()2之前 1
         setState()2之后 1
          render() 8 ----------
-        这些代码都执行之后，render()执行之前，先做1，在做2，再做3，每一次效果都起了
+        这些console代码都执行之后，render()执行之前，先做1，在做2，再做3，每一次效果都起了
 
       */
       console.log('setState()之前', this.state.count)
@@ -128,7 +128,7 @@
         setState()2之前 1
         setState()2之后 1
         render() 11 ----------
-        这些代码都执行之后，render()执行之前，先做1，在做2，再做3，只有最后一次效果起了
+        这些console代码都执行之后，render()执行之前，先做1，在做2，再做3，只有最后一次效果起了
 
       */
       console.log('setState()之前', this.state.count)
@@ -146,11 +146,16 @@
 
     /*
     先对象方式后函数方式的setState()
-    先对象后函数，都更新
+    先对象后函数
+    setState()之前 1
+    setState()之后 1
+    setState2()之前 1
+    setState()2之后 1
+    render() 3
     */
     update7 = () => {
       console.log('setState()之前', this.state.count)
-      this.setState({count: this.state.count + 1})
+      this.setState({count: this.state.count + 1})//还没有开始执行setState之前，count值就已经确定了
       console.log('setState()之后', this.state.count)
 
       console.log('setState2()之前', this.state.count)
@@ -166,11 +171,11 @@
     update8 = () => {
      
       console.log('setState()之前', this.state.count)
-      this.setState(state => ({count: state.count + 1}))
+      this.setState(state => ({count: state.count + 7}))
       console.log('setState()之后', this.state.count)
 
       console.log('setState()2之前', this.state.count)
-      this.setState({count: this.state.count + 7})
+      this.setState({count: this.state.count + 1})//合并上面的
       console.log('setState()2之后', this.state.count)
 
     }
