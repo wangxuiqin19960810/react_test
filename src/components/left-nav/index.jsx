@@ -12,19 +12,6 @@ import { setHeaderTitle } from '../../redux/actions.js'
  */
 const { SubMenu } = Menu;
 class LeftNav extends Component {
-    /* 
-    判断当前用户是否有此item对应的权限
-    */
-    hasAuth = (item) => {
-        // 得到当前用户的所有权限
-        const user = this.props.user
-        const menus = user.role.menus
-        if(user.username==='admin' || item.pablic || menus.indexOf(item.key) !==-1){
-            return ture
-        }else {
-            return falseS
-        }
-    }
 
 
     /*
@@ -39,9 +26,7 @@ class LeftNav extends Component {
 
         const path = this.props.location.pathname
         return menuList.reduce((pre, item) => {
-            // 判断当前用户是否有此item对应的权限
-            if (this.hasAuth(item)) {
-                //可能向pre添加<Menu.Item>
+            
                 if (!item.children) {
                     //找到path对应的item,更新headerTitle状态，值是item的title
                     if (item.key === path || path.indexOf(item.key) === 0) {
@@ -57,8 +42,8 @@ class LeftNav extends Component {
                         </Menu.Item>
                     )
                 }
-
-            } else {
+            //可能向pre添加<Menu.Item>
+            else {
                 /* 
                     判断当前item的key是否是我需要的key
                     查找item中所有的children中cItem的key,看是否有一个跟请求的path匹配
@@ -213,7 +198,7 @@ class LeftNav extends Component {
     结果：LeftNav可以操作路由相关的属性了
 */
 export default connect(
-    state => ({}),
+    state => ({user: state.user}),
     { setHeaderTitle }
 )(withRouter(LeftNav))
 
