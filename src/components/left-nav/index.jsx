@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu, Icon } from 'antd'
+import {connect} from 'react-redux'
 
 import './index.less'
 import logo from '../../assets/images/logo.png'
 import menuList from '../../config/menuConfig'
+import {setHeaderTitle} from '../../redux/actions.js'
 /*
 左侧路由导航组件 
  */
@@ -25,9 +27,14 @@ class LeftNav extends Component {
         return menuList.reduce((pre, item) => {
             //可能向pre添加<Menu.Item>
             if (!item.children) {
+                //找到path对应的item,更新headerTitle状态，值是item的title
+                if(item.key===path || path.indexOf(item.key) === 0){
+                    this.props.setHeaderTitle(item.title)
+                }
+
                 pre.push(
                     <Menu.Item key={item.key}>
-                        <Link to={item.key}>
+                        <Link to={item.key} onClick={()=>this.props.setHeaderTitle(item.title)}>
                             <Icon type={item.icon} />
                             <span>{item.title}</span>
                         </Link>
@@ -187,7 +194,10 @@ class LeftNav extends Component {
     返回一个新组件，新组件向LeftNav传递3个特别的属性：history，location，match
     结果：LeftNav可以操作路由相关的属性了
 */
-export default withRouter(LeftNav);
+export default connect(
+    state => ({}),
+    {setHeaderTitle}
+)(withRouter(LeftNav))
 
 /*
     2个问题

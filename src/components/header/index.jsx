@@ -88,7 +88,8 @@ const { confirm } = Modal;
     render() {
         const user = memoryutils.user;
         //得到当前需要显示的title
-        const title = this.getTitle()
+        // const title = this.getTitle()
+        const title = this.props.headerTitle
 
         let {time,dayPictureUrl,weather} = this.state;
         return (
@@ -115,7 +116,7 @@ const { confirm } = Modal;
 //用connect()包装UI组件生成容器组件
 export default connect(
     //一般属性
-    state => ({headerTitle}),
+    state => ({headerTitle:state.headerTitle}),
     //函数属性
     {}
 )(withRouter(Header))
