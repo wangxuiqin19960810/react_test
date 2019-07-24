@@ -1,17 +1,31 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu, Icon } from 'antd'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import './index.less'
 import logo from '../../assets/images/logo.png'
 import menuList from '../../config/menuConfig'
-import {setHeaderTitle} from '../../redux/actions.js'
+import { setHeaderTitle } from '../../redux/actions.js'
 /*
 左侧路由导航组件 
  */
 const { SubMenu } = Menu;
 class LeftNav extends Component {
+    /* 
+    判断当前用户是否有此item对应的权限
+    */
+    hasAuth = (item) => {
+        // 得到当前用户的所有权限
+        const user = this.props.user
+        const menus = user.role.menus
+        if(user.username==='admin' || item.pablic || menus.indexOf(item.key) !==-1){
+            return ture
+        }else {
+            return falseS
+        }
+    }
+
 
     /*
         根据指定菜单数据列表产生<Menu>的子节点数组
@@ -25,30 +39,34 @@ class LeftNav extends Component {
 
         const path = this.props.location.pathname
         return menuList.reduce((pre, item) => {
-            //可能向pre添加<Menu.Item>
-            if (!item.children) {
-                //找到path对应的item,更新headerTitle状态，值是item的title
-                if(item.key===path || path.indexOf(item.key) === 0){
-                    this.props.setHeaderTitle(item.title)
+            // 判断当前用户是否有此item对应的权限
+            if (this.hasAuth(item)) {
+                //可能向pre添加<Menu.Item>
+                if (!item.children) {
+                    //找到path对应的item,更新headerTitle状态，值是item的title
+                    if (item.key === path || path.indexOf(item.key) === 0) {
+                        this.props.setHeaderTitle(item.title)
+                    }
+
+                    pre.push(
+                        <Menu.Item key={item.key}>
+                            <Link to={item.key} onClick={() => this.props.setHeaderTitle(item.title)}>
+                                <Icon type={item.icon} />
+                                <span>{item.title}</span>
+                            </Link>
+                        </Menu.Item>
+                    )
                 }
 
-                pre.push(
-                    <Menu.Item key={item.key}>
-                        <Link to={item.key} onClick={()=>this.props.setHeaderTitle(item.title)}>
-                            <Icon type={item.icon} />
-                            <span>{item.title}</span>
-                        </Link>
-                    </Menu.Item>
-                )
             } else {
                 /* 
                     判断当前item的key是否是我需要的key
                     查找item中所有的children中cItem的key,看是否有一个跟请求的path匹配
                 */
-                    const cItem = item.children.find(cItem =>path.indexOf(cItem.key) === 0)//看开头是否一致就行
-                      if(cItem){
-                          this.openkey = item.key
-                      }  
+                const cItem = item.children.find(cItem => path.indexOf(cItem.key) === 0)//看开头是否一致就行
+                if (cItem) {
+                    this.openkey = item.key
+                }
 
                 pre.push(
                     <SubMenu
@@ -111,24 +129,24 @@ class LeftNav extends Component {
         第一次render()之后執行，只執行一次
         做一些異步任務，發ajax請求，定時器，訂閲發佈
     */
-    componentDidMount(){
+    componentDidMount() {
 
     }
     /* 
         第一次render()之前執行，只執行一次
         為第一次render做一些同步的準備工作
     */
-    componentWillMount(){
+    componentWillMount() {
         this.menuNodes = this.getMenuNodes(menuList);
     }
 
     render() {
         // console.log('render()')
-        
+
 
         //得到当前请求的路径，作为选中菜单项的key
         let SelectedKey = this.props.location.pathname  //   /product/xxx
-        if(SelectedKey.indexOf('/product')===0){//看开头是否一致就行
+        if (SelectedKey.indexOf('/product') === 0) {//看开头是否一致就行
             SelectedKey = '/product'
         }
         // console.log('SelectedKey',SelectedKey)
@@ -141,7 +159,7 @@ class LeftNav extends Component {
                 </Link>
 
 
-                    {/* 
+                {/* 
                         defaultSelectedKeys: 总是根据第一次指定的key进行显示
                         selectedKeys: 总是根据最新指定的key进行显示
                     */}
@@ -196,7 +214,7 @@ class LeftNav extends Component {
 */
 export default connect(
     state => ({}),
-    {setHeaderTitle}
+    { setHeaderTitle }
 )(withRouter(LeftNav))
 
 /*
